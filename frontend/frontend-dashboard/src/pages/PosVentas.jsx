@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 function PosVentas() {
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
+  const [procesando, setProcesando] = useState(false); // Para deshabilitar el botón mientras carga
 
   useEffect(() => {
     fetch('http://localhost:8080/api/v1/productos')
@@ -11,32 +12,65 @@ function PosVentas() {
       .catch(error => console.error("Error de conexión:", error));
   }, []);
 
-  // --- NUEVA LÓGICA DEL CARRITO ---
   const clickProducto = (producto) => {
     setCarrito(carritoActual => {
-      // 1. Buscamos si el producto ya fue agregado antes
       const itemExistente = carritoActual.find(item => item.idSku === producto.idSku);
-
       if (itemExistente) {
-        // 2. Si ya existe, creamos un nuevo arreglo actualizando solo la cantidad de ese item
         return carritoActual.map(item =>
-          item.idSku === producto.idSku
-            ? { ...item, cantidad: item.cantidad + 1 }
-            : item
+          item.idSku === producto.idSku ? { ...item, cantidad: item.cantidad + 1 } : item
         );
       } else {
-        // 3. Si no existe, lo agregamos al final con cantidad inicial de 1
         return [...carritoActual, { ...producto, cantidad: 1 }];
       }
     });
   };
 
-  // Función para vaciar la orden (útil si el cliente se arrepiente)
   const limpiarCarrito = () => setCarrito([]);
 
-  // Calculadora del gran total
   const calcularTotal = () => {
     return carrito.reduce((total, item) => total + (item.precioVenta * item.cantidad), 0);
+  };
+
+  // --- NUEVA LÓGICA: ENVIAR LA VENTA AL BACKEND ---
+  const cobrarVenta = async () => {
+    setProcesando(true); // Bloqueamos el botón para evitar doble clic
+
+    // 1. Armamos el DTO (El JSON exacto que espera Java)
+    const payload = {
+      cliente: "Consumidor Final", // A futuro podríamos poner un campo de texto para el nombre
+      comentarios: "Venta rápida en caja",
+      idVendedor: 1, // Asumimos el vendedor con ID 1 por ahora
+      detalles: carrito.map(item => ({
+        idSku: item.idSku,
+        cantidad: item.cantidad
+      }))
+    };
+
+    try {
+      // 2. Hacemos la petición POST al endpoint de ventas
+      const respuesta = await fetch('http://localhost:8080/api/v1/ventas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // 3. Evaluamos la respuesta de Java
+      if (respuesta.ok) {
+        const mensajeExito = await respuesta.text();
+        alert("✅ " + mensajeExito); // Mostramos el mensaje (ej: "Venta procesada con éxito. ID: 1")
+        limpiarCarrito(); // Vaciamos la pantalla para el siguiente cliente
+      } else {
+        const mensajeError = await respuesta.text();
+        alert("❌ Error en la base de datos: " + mensajeError);
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      alert("❌ No se pudo conectar con el servidor.");
+    } finally {
+      setProcesando(false); // Desbloqueamos el botón
+    }
   };
 
   return (
@@ -91,7 +125,6 @@ function PosVentas() {
           )}
         </div>
 
-        {/* Lista dinámica de items */}
         <div style={{ flexGrow: 1, marginTop: '20px', overflowY: 'auto' }}>
           {carrito.length === 0 ? (
             <p style={{ color: '#6b7280', textAlign: 'center' }}>El carrito está vacío</p>
@@ -121,21 +154,22 @@ function PosVentas() {
             <span>${calcularTotal().toLocaleString('es-CO')}</span>
           </div>
           <button
-            disabled={carrito.length === 0}
+            onClick={cobrarVenta}
+            disabled={carrito.length === 0 || procesando}
             style={{
               width: '100%',
               padding: '15px',
-              backgroundColor: carrito.length === 0 ? '#9ca3af' : '#10b981',
+              backgroundColor: (carrito.length === 0 || procesando) ? '#9ca3af' : '#10b981',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
               fontSize: '18px',
               fontWeight: 'bold',
-              cursor: carrito.length === 0 ? 'not-allowed' : 'pointer',
+              cursor: (carrito.length === 0 || procesando) ? 'not-allowed' : 'pointer',
               transition: 'background-color 0.2s'
             }}
           >
-            Cobrar e Imprimir
+            {procesando ? 'Procesando...' : 'Cobrar e Imprimir'}
           </button>
         </div>
       </div>
