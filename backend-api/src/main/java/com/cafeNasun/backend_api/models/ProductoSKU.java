@@ -1,4 +1,4 @@
-package com.cafeNasun.backend_api.models; // Ojo: cambia esto por tu paquete real
+package com.cafeNasun.backend_api.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,8 +22,18 @@ public class ProductoSKU {
     @Column(name = "precio_venta")
     private Double precioVenta;
 
-    // Getters y Setters (Si añadiste Lombok al crear el proyecto,
-    // puedes borrar todo esto y simplemente poner @Data arriba de la clase)
+    // --- NUEVOS CAMPOS AÑADIDOS ---
+
+    @Column(name = "id_inventario_materia")
+    private Integer idInventarioMateria;
+
+    @Column(name = "peso_gramos")
+    private Integer pesoGramos;
+
+    @Column(name = "stock_unidades")
+    private Integer stockUnidades;
+
+    // --- GETTERS Y SETTERS ---
 
     public String getIdSku() { return idSku; }
     public void setIdSku(String idSku) { this.idSku = idSku; }
@@ -36,4 +46,13 @@ public class ProductoSKU {
 
     public Double getPrecioVenta() { return precioVenta; }
     public void setPrecioVenta(Double precioVenta) { this.precioVenta = precioVenta; }
+
+    public Integer getIdInventarioMateria() { return idInventarioMateria; }
+    public void setIdInventarioMateria(Integer idInventarioMateria) { this.idInventarioMateria = idInventarioMateria; }
+
+    public Integer getPesoGramos() { return pesoGramos; }
+    public void setPesoGramos(Integer pesoGramos) { this.pesoGramos = pesoGramos; }
+
+    public Integer getStockUnidades() { return stockUnidades; }
+    public void setStockUnidades(Integer stockUnidades) { this.stockUnidades = stockUnidades; }
 }
