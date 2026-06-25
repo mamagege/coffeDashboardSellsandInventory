@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/dashboard")
-@CrossOrigin(origins = {"https://cafe-dashboard-dc2nv95t9-mamageges-projects.vercel.app", "https://cafe-dashboard-77wl52ni3-mamageges-projects.vercel.app", "https://cafe-dashboard-eight.vercel.app"})
+@CrossOrigin(originPatterns = {"https://*.vercel.app", "http://localhost:*"})
 public class DashboardController {
 
     @Autowired private VentaRepository ventaRepo;
