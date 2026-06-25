@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/inventario")
-@CrossOrigin(origins = "https://cafe-dashboard-dc2nv95t9-mamageges-projects.vercel.app")
+@CrossOrigin(origins = {"https://cafe-dashboard-dc2nv95t9-mamageges-projects.vercel.app", "https://cafe-dashboard-77wl52ni3-mamageges-projects.vercel.app", "https://cafe-dashboard-eight.vercel.app"})
 public class InventarioController {
 
     @Autowired
