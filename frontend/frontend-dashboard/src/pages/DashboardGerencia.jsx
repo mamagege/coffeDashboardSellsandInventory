@@ -11,7 +11,7 @@ function DashboardGerencia() {
 
     const cargarDashboard = () => {
         setCargando(true);
-        fetch('http://localhost:8080/api/v1/dashboard/resumen')
+        fetch(`${import.meta.env.VITE_API_URL}/dashboard/resumen`)
             .then(res => res.json())
             .then(datos => {
                 setMetricas(datos);

@@ -6,7 +6,7 @@ function PosVentas() {
   const [procesando, setProcesando] = useState(false); // Para deshabilitar el botón mientras carga
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/v1/productos')
+    fetch(`${import.meta.env.VITE_API_URL}/productos`)
       .then(respuesta => respuesta.json())
       .then(datos => setProductos(datos))
       .catch(error => console.error("Error de conexión:", error));
@@ -48,7 +48,7 @@ function PosVentas() {
 
     try {
       // 2. Hacemos la petición POST al endpoint de ventas
-      const respuesta = await fetch('http://localhost:8080/api/v1/ventas', {
+      const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/ventas`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

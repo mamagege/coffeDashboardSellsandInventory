@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/productos")
-@CrossOrigin(origins = "https://cafe-dashboard-eight.vercel.app") // Permite que tu React (Vite) se conecte sin bloqueos de seguridad
+@CrossOrigin(origins = "https://cafe-dashboard-dc2nv95t9-mamageges-projects.vercel.app") // Permite que tu React (Vite) se conecte sin bloqueos de seguridad
 public class ProductoController {
 
     @Autowired

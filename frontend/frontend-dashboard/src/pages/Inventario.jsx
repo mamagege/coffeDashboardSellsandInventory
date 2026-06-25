@@ -7,7 +7,7 @@ function Inventario() {
     // Función para traer los datos del backend
     const cargarInventario = () => {
         setCargando(true);
-        fetch('http://localhost:8080/api/v1/inventario')
+        fetch(`${import.meta.env.VITE_API_URL}/inventario`)
             .then(respuesta => respuesta.json())
             .then(datos => {
                 setInventario(datos);
