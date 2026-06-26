@@ -2,27 +2,27 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import PosVentas from './pages/PosVentas';
 import DashboardGerencia from './pages/DashboardGerencia';
 import Inventario from './pages/Inventario';
-import Sidebar from './components/layout/Sidebar';
+import AdminLayout from './components/layout/AdminLayout';
+import TiendaHome from './pages/tienda/TiendaHome';
+import Catalogo from './pages/tienda/Catalogo';
+import Carrito from './pages/tienda/Carrito';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* Contenedor principal usando Flexbox para poner el menú al lado del contenido */}
-      <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-        
-        {/* El menú lateral siempre estará visible */}
-        <Sidebar />
+      <Routes>
+        {/* Rutas Administrativas con Sidebar */}
+        <Route element={<AdminLayout />}>
+          <Route path="/" element={<PosVentas />} />
+          <Route path="/dashboard" element={<DashboardGerencia />} />
+          <Route path="/inventario" element={<Inventario />} />
+        </Route>
 
-        {/* El área principal donde cambia el contenido según la ruta */}
-        <main style={{ flexGrow: 1, padding: '20px', backgroundColor: '#f3f4f6' }}>
-          <Routes>
-            <Route path="/" element={<PosVentas />} />
-            <Route path="/dashboard" element={<DashboardGerencia />} />
-            <Route path="/inventario" element={<Inventario />} />
-          </Routes>
-        </main>
-        
-      </div>
+        {/* Rutas Públicas (Tienda E-commerce) - Sin Sidebar */}
+        <Route path="/tienda" element={<TiendaHome />} />
+        <Route path="/tienda/catalogo" element={<Catalogo />} />
+        <Route path="/tienda/carrito" element={<Carrito />} />
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -78,7 +78,7 @@ function PosVentas() {
 
       {/* PANEL IZQUIERDO: Catálogo */}
       <div style={{ flex: 2, backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-        <h2 style={{ borderBottom: '2px solid #f3f4f6', paddingBottom: '10px' }}>Seleccionar Productos</h2>
+        <h2 style={{ borderBottom: '2px solid #f3f4f6', paddingBottom: '10px', color: '#1f2937' }}>Seleccionar Productos</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '15px', marginTop: '20px' }}>
           {productos.length === 0 ? (
             <p>Cargando productos...</p>
@@ -117,7 +117,7 @@ function PosVentas() {
       {/* PANEL DERECHO: Carrito de Compras */}
       <div style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #f3f4f6', paddingBottom: '10px' }}>
-          <h2 style={{ margin: 0 }}>Orden Actual</h2>
+          <h2 style={{ margin: 0, color: '#1f2937' }}>Orden Actual</h2>
           {carrito.length > 0 && (
             <button onClick={limpiarCarrito} style={{ backgroundColor: '#ef4444', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}>
               Vaciar
