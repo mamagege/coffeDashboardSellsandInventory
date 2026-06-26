@@ -46,9 +46,10 @@ const TiendaNavbar = () => {
       </div>
       
       {/* Links abajo del título */}
-      <div className="space-x-8 text-sm font-medium text-gray-900">
+      <div className="flex items-center space-x-8 text-sm font-medium text-gray-900">
         <Link to="/tienda/catalogo" className="hover:text-gray-500 transition-colors uppercase tracking-widest">Catálogo</Link>
         <Link to="/tienda/carrito" className="hover:text-gray-500 transition-colors uppercase tracking-widest">Carrito</Link>
+        <Link to="/dashboard" className="bg-gray-900 text-white px-4 py-1.5 rounded-md hover:bg-gray-800 transition-colors uppercase tracking-widest text-xs shadow-sm">Admin</Link>
       </div>
     </nav>
   );
